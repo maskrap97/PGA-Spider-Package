@@ -19,3 +19,7 @@ class pgaspider(scrapy.Spider):
             'price': response.css('div.bfx-price::text').get()
             }
 
+        next_page = response.css('something').get()
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)
