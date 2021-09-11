@@ -2,15 +2,10 @@ import scrapy
 
 class pgaspider(scrapy.Spider):
     name = "pga-clubs"
-
-    def start_requests(self):
-        urls = [
-            'https://www.pgatoursuperstore.com/launcher-uhx-iron-set-w%2F-steel-shafts/2000000008506.html?cgid=golf-clubs-ironsets#sz=24&start=1',
-            'https://www.pgatoursuperstore.com/sim2-max-irons-w%2F-steel-shafts/2000000018854.html?cgid=golf-clubs-ironsets#sz=36&start=1'
+    start_urls = [
+            'https://www.pgatoursuperstore.com/golf-clubs/irons-sets/?sz=156'
         ]
-
-        for url in urls:
-            yield scrapy.Request(url=url, callback = self.parse)
+    allowed_domains = ['https://www.pgatoursuperstore.com']
 
     def parse(self, response):
         yield {
@@ -19,7 +14,7 @@ class pgaspider(scrapy.Spider):
             'price': response.css('div.bfx-price::text').get()
             }
 
-        next_page = response.css('something').get()
+        next_page = response.css('a.name-link::attr(href)').get()
         if next_page is not None:
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
