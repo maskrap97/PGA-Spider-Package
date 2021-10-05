@@ -5,7 +5,6 @@ class pgaspider(scrapy.Spider):
     start_urls = [
             'https://www.pgatoursuperstore.com/golf-clubs/irons-sets/?sz=156'
         ]
-    allowed_domains = ['https://www.pgatoursuperstore.com']
 
     def parse(self, response):
         yield {
@@ -16,5 +15,4 @@ class pgaspider(scrapy.Spider):
 
         next_page = response.css('a.name-link::attr(href)').get()
         if next_page is not None:
-            next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)

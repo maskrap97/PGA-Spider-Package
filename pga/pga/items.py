@@ -9,4 +9,8 @@ import scrapy
 class PgaItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    name = scrapy.Field()
+    brand = scrapy.Field()
+    price = scrapy.Field()
+    loft = scrapy.Field()
     pass
